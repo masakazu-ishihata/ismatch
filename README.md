@@ -42,9 +42,9 @@ i 行 j 列の数字はユーザ i さんが j 番目に希望している相手
 
 ## 余談
 
-実装では、希望リストは任意の整数列としている。
-{0,...,n-1} 以外の数が与えれたらそれを無視し、
-長さ n 以上が与えられた場合はそれ以降を無視する。
+実装では、希望リストは任意の整数列としている。  
+{0,...,n-1} 以外の数が与えれたらそれを無視し、  
+長さ n 以上が与えられた場合はそれ以降を無視する。  
 マッチングは必ず希望リストに含まれる相手とのみ成立しうる。
 
 ## method
@@ -61,11 +61,14 @@ ismatch インスタンス _ism を free する。
 
 ismatch インスタンス _ism のマッチングを行う。
 
+    int *ismatch_get_matching(ismatch *_ism);
+
+ismatch インスタンス _ism で得られたマッチングを返す。
+
 ## 使い方
 
 main.c を参照してください！
 
-\ リンク
 [icsv]:  https://github.com/masakazu-ishihata/icsv  "icsv"
 [ilist]: https://github.com/masakazu-ishihata/ilist "ilist"
 [iutil]: https://github.com/masakazu-ishihata/iutil "iutil"

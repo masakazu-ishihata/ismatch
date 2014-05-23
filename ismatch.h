@@ -33,6 +33,7 @@ void ismatch_show(FILE *_fp, ismatch *_ism);
 /* accessor */
 void ismatch_set_rm(ismatch *_ism, int _m, int *_r);
 void ismatch_set_rw(ismatch *_ism, int _w, int *_r);
+int *ismatch_get_matching(ismatch *_ism);
 
 /* match */
 void ismatch_match(ismatch *_ism);

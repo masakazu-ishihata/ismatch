@@ -21,8 +21,7 @@ ismatch *ismatch_read(const char *_fm, const char *_fw)
   for(i=0; i<icsv_num_line(fm) && i<n; i++){
     /* read ranking */
     for(j=0; j<n; j++) r[j] = -1;
-    for(j=0; j<icsv_num_item(fm, i) && j<n; j++)
-      r[j] = atoi( icsv_get(fm, i, j) );
+    for(j=0; j<icsv_num_item(fm, i) && j<n; j++) r[j] = atoi( icsv_get(fm, i, j) );
 
     /* set ranking */
     ismatch_set_rm(_ism, i, r);
@@ -32,8 +31,7 @@ ismatch *ismatch_read(const char *_fm, const char *_fw)
   for(i=0; i<icsv_num_line(fw) && i<n; i++){
     /* read ranking */
     for(j=0; j<n; j++) r[j] = -1;
-    for(j=0; j<icsv_num_item(fw, i) && j<n; j++)
-      r[j] = atoi( icsv_get(fw, i, j) );
+    for(j=0; j<icsv_num_item(fw, i) && j<n; j++) r[j] = atoi( icsv_get(fw, i, j) );
 
     /* set ranking */
     ismatch_set_rw(_ism, i, r);
@@ -68,8 +66,7 @@ ismatch *ismatch_new(int _n)
 
   /* matching */
   _ism->m = (int *)iary_new(_n, sizeof(int));
-  for(i=0; i<_n; i++)
-    _ism->m[i] = -1;
+  for(i=0; i<_n; i++) _ism->m[i] = -1;
 
   return _ism;
 }
@@ -79,6 +76,7 @@ void ismatch_free(ismatch *_ism)
 {
   imatrix_free(_ism->n, _ism->rm);
   imatrix_free(_ism->n, _ism->rw);
+  free(_ism->m);
   free(_ism);
 }
 
@@ -123,6 +121,10 @@ void ismatch_set_rw(ismatch *_ism, int _w, int *_r)
     if(0 <= _r[i] && _r[i] < n) _ism->rw[_w][i] = _r[i];
   }
 }
+int *ismatch_get_matching(ismatch *_ism)
+{
+  return _ism->m;
+}
 
 /*------------------------------------*/
 /* match */
@@ -138,11 +140,7 @@ void ismatch_match(ismatch *_ism)
   /*------------------------------------*/
   /* woman's preference */
   int **r = (int **)imatrix_new(n, n, sizeof(int));
-  for(w=0; w<n; w++){
-    for(m=0; m<n; m++){
-      r[w][m] = -1;
-    }
-  }
+  for(w=0; w<n; w++) for(m=0; m<n; m++) r[w][m] = -1;
   for(w=0; w<n; w++){
     for(i=0; i<n; i++){
       m = _ism->rw[w][i]; /* the i-th prefered man */
@@ -168,9 +166,7 @@ void ismatch_match(ismatch *_ism)
 
   /* single men list */
   ilist *s = ilist_new();
-  for(m=0; m<n; m++){
-    ilist_push(s, int_new(m));
-  }
+  for(m=0; m<n; m++) ilist_push(s, int_new(m));
 
   /*------------------------------------*/
   /* matching */
@@ -200,7 +196,7 @@ void ismatch_match(ismatch *_ism)
         ilist_push(s, int_new(f));
       }
 
-      /* */
+      /* w is enguage and m is worse that the current fianceef */
       else{
         if(SHOW) printf("refused\n");
       }
